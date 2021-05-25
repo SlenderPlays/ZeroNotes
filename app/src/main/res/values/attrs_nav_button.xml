@@ -1,0 +1,10 @@
+<resources>
+    <declare-styleable name="NavButton">
+        <attr name="navText" format="string" />
+        <attr name="navTextSize" format="dimension" />
+        <attr name="navTextColor" format="color" />
+        <attr name="navIcon" format="color|reference" />
+        <attr name="navIconSize" format="dimension" />
+        <attr name="navIconOverscale" format="boolean" />
+    </declare-styleable>
+</resources>
