@@ -6,5 +6,7 @@
         <attr name="navIcon" format="color|reference" />
         <attr name="navIconSize" format="dimension" />
         <attr name="navIconOverscale" format="boolean" />
+        <attr name="selectedColor" format="color" />
+        <attr name="deselectedColor" format="color" />
     </declare-styleable>
 </resources>
