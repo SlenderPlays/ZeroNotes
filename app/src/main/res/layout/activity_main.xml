@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
@@ -29,6 +30,7 @@
             app:navTextColor="@color/white"
             app:navTextSize="12sp"
             app:selectedColor="@color/grey_25" />
+
         <ro.zero.zeronotes.NavButton
             android:id="@+id/navButton_Habits"
             android:layout_width="0dp"
@@ -40,9 +42,10 @@
             app:navIconOverscale="true"
             app:navIconSize="35dp"
             app:navText="Habits"
-            app:navTextSize="12sp"
             app:navTextColor="@color/white"
-            app:selectedColor="@color/grey_25"/>
+            app:navTextSize="12sp"
+            app:selectedColor="@color/grey_25" />
+
         <ro.zero.zeronotes.NavButton
             android:id="@+id/navButton_Calendar"
             android:layout_width="0dp"
@@ -54,8 +57,17 @@
             app:navIconOverscale="true"
             app:navIconSize="35dp"
             app:navText="Calendar"
-            app:navTextSize="12sp"
             app:navTextColor="@color/white"
-            app:selectedColor="@color/grey_25"/>
+            app:navTextSize="12sp"
+            app:selectedColor="@color/grey_25" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

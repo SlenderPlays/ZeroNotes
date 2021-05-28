@@ -1,9 +1,8 @@
 package ro.zero.zeronotes;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,8 +11,11 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		NotesFragment notesFragment = new NotesFragment();
+		HabitsFragment habitsFragment = new HabitsFragment();
+		CalendarFragment calendarFragment = new CalendarFragment();
+
 		NavButton notesNavButton = findViewById(R.id.navButton_Notes);
-		notesNavButton.select();
 		NavButton notesNavHabits = findViewById(R.id.navButton_Habits);
 		NavButton notesNavCalendar = findViewById(R.id.navButton_Calendar);
 
@@ -21,16 +23,23 @@ public class MainActivity extends AppCompatActivity {
 			notesNavButton.select();
 			notesNavHabits.deselect();
 			notesNavCalendar.deselect();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,notesFragment).commit();
 		});
 		notesNavHabits.setOnClickListener(v -> {
 			notesNavButton.deselect();
 			notesNavHabits.select();
 			notesNavCalendar.deselect();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,habitsFragment).commit();
 		});
 		notesNavCalendar.setOnClickListener(v -> {
 			notesNavButton.deselect();
 			notesNavHabits.deselect();
 			notesNavCalendar.select();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,calendarFragment).commit();
 		});
+
+		// Initialize Activity
+		notesNavButton.select();
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,notesFragment).commit();
 	}
 }
