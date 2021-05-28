@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#505050"
+    android:background="@color/grey_30"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#303030"
+            android:background="@color/grey_20"
             android:padding="2.5dp"
             app:navIcon="@android:drawable/ic_menu_add"
             app:navIconOverscale="true"
@@ -28,13 +28,13 @@
             app:navText="Notes"
             app:navTextColor="@color/white"
             app:navTextSize="12sp"
-            app:selectedColor="#454545" />
+            app:selectedColor="@color/grey_25" />
         <ro.zero.zeronotes.NavButton
             android:id="@+id/navButton_Habits"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#303030"
+            android:background="@color/grey_20"
             android:padding="2.5dp"
             app:navIcon="@android:drawable/ic_menu_add"
             app:navIconOverscale="true"
@@ -42,13 +42,13 @@
             app:navText="Habits"
             app:navTextSize="12sp"
             app:navTextColor="@color/white"
-            app:selectedColor="#454545"/>
+            app:selectedColor="@color/grey_25"/>
         <ro.zero.zeronotes.NavButton
             android:id="@+id/navButton_Calendar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#303030"
+            android:background="@color/grey_20"
             android:padding="2.5dp"
             app:navIcon="@android:drawable/ic_menu_add"
             app:navIconOverscale="true"
@@ -56,6 +56,6 @@
             app:navText="Calendar"
             app:navTextSize="12sp"
             app:navTextColor="@color/white"
-            app:selectedColor="#454545"/>
+            app:selectedColor="@color/grey_25"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
