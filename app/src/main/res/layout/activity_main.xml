@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ro.zero.zeronotes.NavButton
+        <ro.zero.zeronotes.ui.NavButton
             android:id="@+id/navButton_Notes"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -31,7 +31,7 @@
             app:navTextSize="12sp"
             app:selectedColor="@color/grey_25" />
 
-        <ro.zero.zeronotes.NavButton
+        <ro.zero.zeronotes.ui.NavButton
             android:id="@+id/navButton_Habits"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -46,8 +46,8 @@
             app:navTextSize="12sp"
             app:selectedColor="@color/grey_25" />
 
-        <ro.zero.zeronotes.NavButton
-            android:id="@+id/navButton_Calendar"
+        <ro.zero.zeronotes.ui.NavButton
+            android:id="@+id/navButton_Monthly"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -56,7 +56,7 @@
             app:navIcon="@android:drawable/ic_menu_add"
             app:navIconOverscale="true"
             app:navIconSize="35dp"
-            app:navText="Calendar"
+            app:navText="Monthly"
             app:navTextColor="@color/white"
             app:navTextSize="12sp"
             app:selectedColor="@color/grey_25" />

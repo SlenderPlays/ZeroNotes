@@ -1,4 +1,4 @@
-package ro.zero.zeronotes;
+package ro.zero.zeronotes.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import ro.zero.zeronotes.R;
 
 /**
  * This UI Component creates a view which has two main components: Text and an Icon. Both are centered vertically

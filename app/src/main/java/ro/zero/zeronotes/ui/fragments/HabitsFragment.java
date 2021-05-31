@@ -1,4 +1,4 @@
-package ro.zero.zeronotes;
+package ro.zero.zeronotes.ui.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import ro.zero.zeronotes.R;
 
 /**
  * A simple {@link Fragment} subclass.

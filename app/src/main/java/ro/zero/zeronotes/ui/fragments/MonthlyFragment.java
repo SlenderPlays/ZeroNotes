@@ -1,4 +1,4 @@
-package ro.zero.zeronotes;
+package ro.zero.zeronotes.ui.fragments;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ro.zero.zeronotes.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NotesFragment#newInstance} factory method to
+ * Use the {@link MonthlyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotesFragment extends Fragment {
+public class MonthlyFragment extends Fragment {
 
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class NotesFragment extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
-	public NotesFragment() {
+	public MonthlyFragment() {
 		// Required empty public constructor
 	}
 
@@ -34,11 +36,11 @@ public class NotesFragment extends Fragment {
 	 *
 	 * @param param1 Parameter 1.
 	 * @param param2 Parameter 2.
-	 * @return A new instance of fragment NotesFragment.
+	 * @return A new instance of fragment CalendarFragment.
 	 */
 	// TODO: Rename and change types and number of parameters
-	public static NotesFragment newInstance(String param1, String param2) {
-		NotesFragment fragment = new NotesFragment();
+	public static MonthlyFragment newInstance(String param1, String param2) {
+		MonthlyFragment fragment = new MonthlyFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class NotesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_notes, container, false);
+		return inflater.inflate(R.layout.fragment_calendar, container, false);
 	}
 }
