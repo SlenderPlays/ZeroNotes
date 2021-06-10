@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/note_content"
         android:layout_width="0dp"
-        android:layout_height="65dp"
+        android:layout_height="55dp"
         android:background="#E68A00"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp"
-        android:text="To-Do Note"
+        android:text="Example Note Title"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/note_checkBox"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/checkBox"
+        android:id="@+id/note_checkBox"
         android:layout_width="50dp"
         android:layout_height="0dp"
-        android:padding="7dp"
         android:background="@color/grey_20"
+        android:padding="8dp"
         android:src="@drawable/checkbox_unchecked"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintBottom_toBottomOf="@+id/note_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/note_content"
+        android:contentDescription="Checkbox for the note" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
