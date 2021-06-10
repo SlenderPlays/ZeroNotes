@@ -1,15 +1,11 @@
 package ro.zero.zeronotes.ui;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -19,13 +15,9 @@ import ro.zero.zeronotes.notes.Note;
 
 public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
 	private List<Note> noteList;
-	Drawable uncheckedIcon = null;
-	Drawable checkedIcon = null;
 
-	public NoteRecyclerViewAdapter(Context context, List<Note> noteList) {
+	public NoteRecyclerViewAdapter(List<Note> noteList) {
 		this.noteList = noteList;
-		uncheckedIcon = ResourcesCompat.getDrawable(context.getResources(),R.drawable.checkbox_unchecked,null);
-		checkedIcon = ResourcesCompat.getDrawable(context.getResources(),R.drawable.checkbox_checked,null);
 	}
 
 	// When the view holder is created
@@ -40,8 +32,9 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	// when a view is getting it's data
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+		viewHolder.setNote(noteList.get(position));
 		viewHolder.setText(noteList.get(position).noteText);
-		viewHolder.setCheckboxStatus(this,noteList.get(position).finished);
+		viewHolder.setCheckboxStatus(noteList.get(position).finished);
 	}
 
 	// Return the size of the dataset
@@ -53,6 +46,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		private final TextView noteTextView;
 		private final ImageView checkBoxView;
+		private Note note = null;
 
 		public ViewHolder(View view) {
 			super(view);
@@ -61,19 +55,32 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 			checkBoxView = view.findViewById(R.id.note_checkBox);
 
 			checkBoxView.setOnClickListener(v -> {
-				Toast.makeText(view.getContext(),"Not implemented",Toast.LENGTH_SHORT).show();
+				if(note != null) {
+					note.finished = !note.finished;
+					setCheckboxStatus(note.finished);
+
+					// TODO: update file storage with the new note
+					// note.updateData();
+				}
 			});
 		}
 
 		public void setText(String str) {
 			noteTextView.setText(str);
 		}
-		public void setCheckboxStatus(NoteRecyclerViewAdapter adapter,boolean checked) {
+		public void setCheckboxStatus(boolean checked) {
 			if(checked) {
-				checkBoxView.setImageDrawable(adapter.checkedIcon);
+				checkBoxView.setImageDrawable(UIResourceManager.getInstance().note_checkedIcon);
+				noteTextView.setBackgroundResource(R.color.note_finished);
+				noteTextView.setTextColor(UIResourceManager.getInstance().note_textColor_finished);
 			} else {
-				checkBoxView.setImageDrawable(adapter.uncheckedIcon);
+				checkBoxView.setImageDrawable(UIResourceManager.getInstance().note_uncheckedIcon);
+				noteTextView.setBackgroundResource(R.color.note_default);
+				noteTextView.setTextColor(UIResourceManager.getInstance().note_textColor_default);
 			}
+		}
+		public void setNote(Note note) {
+			this.note = note;
 		}
 	}
 }

@@ -42,7 +42,7 @@ public class NotesFragment extends Fragment {
 		RecyclerView recyclerView = view.findViewById(R.id.noteRecycler);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(view.getContext(),dummyNotes);
+		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(dummyNotes);
 		recyclerView.setAdapter(adapter);
 
 		return view;

@@ -18,6 +18,11 @@
     <color name="gold">#FFD900</color>
     <color name="yellow">#FFFF00</color>
 
+    <color name="note_default">#E68A00</color>
+    <color name="note_finished">#BF7300</color>
+    <color name="note_text_default">#FFFFFF</color>
+    <color name="note_text_finished">#D9D9D9</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

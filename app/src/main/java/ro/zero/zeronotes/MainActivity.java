@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ro.zero.zeronotes.ui.NavButton;
+import ro.zero.zeronotes.ui.UIResourceManager;
 import ro.zero.zeronotes.ui.fragments.HabitsFragment;
 import ro.zero.zeronotes.ui.fragments.MonthlyFragment;
 import ro.zero.zeronotes.ui.fragments.NotesFragment;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		UIResourceManager.init(this);
 
 		NotesFragment notesFragment = new NotesFragment();
 		HabitsFragment habitsFragment = new HabitsFragment();
