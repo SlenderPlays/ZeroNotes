@@ -1,5 +1,7 @@
 package ro.zero.zeronotes.ui;
 
+import android.os.storage.StorageManager;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
+import ro.zero.zeronotes.storage.DataStorageManager;
 
 public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
 	private List<Note> noteList;
@@ -59,8 +62,8 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 					note.finished = !note.finished;
 					setCheckboxStatus(note.finished);
 
-					// TODO: update file storage with the new note
-					// note.updateData();
+					// TODO: perhaps cache these changes and mass-commit them?
+					DataStorageManager.getInstance().save();
 				}
 			});
 		}

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
+import ro.zero.zeronotes.storage.DataStorageManager;
 import ro.zero.zeronotes.ui.NoteRecyclerViewAdapter;
 
 public class NotesFragment extends Fragment {
@@ -32,6 +33,8 @@ public class NotesFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
+
+
 		ArrayList<Note> dummyNotes = new ArrayList<>();
 		dummyNotes.add(new Note().withText("Walk the dog"));
 		dummyNotes.add(new Note().withText("Walk the cat").withFinishedStatus(true));
@@ -39,10 +42,15 @@ public class NotesFragment extends Fragment {
 		dummyNotes.add(new Note().withText("Email the boss"));
 		dummyNotes.add(new Note().withText("Throw a party"));
 
+		if(DataStorageManager.getInstance().saveData.notes.isEmpty()) {
+			DataStorageManager.getInstance().saveData.notes.addAll(dummyNotes);
+			DataStorageManager.getInstance().save();
+		}
+
 		RecyclerView recyclerView = view.findViewById(R.id.noteRecycler);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(dummyNotes);
+		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(DataStorageManager.getInstance().saveData.notes);
 		recyclerView.setAdapter(adapter);
 
 		return view;

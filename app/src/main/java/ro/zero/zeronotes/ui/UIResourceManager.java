@@ -15,7 +15,7 @@ public class UIResourceManager {
 
 	public static UIResourceManager getInstance() {
 		if(_instance == null) {
-			throw new NullPointerException("UIResourceManager is null. You should first instantiate it with inside the main Activity.");
+			throw new NullPointerException("UIResourceManager is null. You should first instantiate it with UIResourceManager.init(...) inside the main Activity.");
 		} else {
 			return _instance;
 		}

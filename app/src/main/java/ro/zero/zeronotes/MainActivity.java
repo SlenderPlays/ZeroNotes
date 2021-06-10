@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ro.zero.zeronotes.storage.DataStorageManager;
 import ro.zero.zeronotes.ui.NavButton;
 import ro.zero.zeronotes.ui.UIResourceManager;
 import ro.zero.zeronotes.ui.fragments.HabitsFragment;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		UIResourceManager.init(this);
+		DataStorageManager.init(this);
 
 		NotesFragment notesFragment = new NotesFragment();
 		HabitsFragment habitsFragment = new HabitsFragment();
