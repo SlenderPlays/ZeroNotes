@@ -1,12 +1,11 @@
 package ro.zero.zeronotes.ui;
 
-import android.os.storage.StorageManager;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +16,9 @@ import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.storage.DataStorageManager;
 
 public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
+	private static final int ITEM_TYPE = 0;
+	private static final int ADD_NOTE_TYPE = 1;
+
 	private List<Note> noteList;
 
 	public NoteRecyclerViewAdapter(List<Note> noteList) {
@@ -26,32 +28,68 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	// When the view holder is created
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-		View view = LayoutInflater.from(viewGroup.getContext())
-				.inflate(R.layout.component_note, viewGroup, false);
-
-		return new ViewHolder(view);
+		if(viewType == ITEM_TYPE) {
+			View view = LayoutInflater.from(viewGroup.getContext())
+					.inflate(R.layout.component_note, viewGroup, false);
+			return new ItemViewHolder(view);
+		} else if(viewType == ADD_NOTE_TYPE) {
+			View view = LayoutInflater.from(viewGroup.getContext())
+					.inflate(R.layout.component_add_note, viewGroup, false);
+			return new AddNoteViewHolder(view);
+		}
+		return null;
 	}
 
 	// when a view is getting it's data
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-		viewHolder.setNote(noteList.get(position));
-		viewHolder.setText(noteList.get(position).noteText);
-		viewHolder.setCheckboxStatus(noteList.get(position).finished);
+		int type = getItemViewType(position);
+		if(type == ITEM_TYPE) {
+			ItemViewHolder itemHolder = (ItemViewHolder) viewHolder;
+
+			itemHolder.setNote(noteList.get(position));
+			itemHolder.setText(noteList.get(position).noteText);
+			itemHolder.setCheckboxStatus(noteList.get(position).finished);
+		} else if (type == ADD_NOTE_TYPE) {
+			// ... we don't need to bind any data to it since it's a static element, with no data.
+		}
 	}
 
 	// Return the size of the dataset
 	@Override
 	public int getItemCount() {
-		return noteList.size();
+		return noteList.size() + 1;
+	}
+
+	@Override
+	public int getItemViewType(int position) {
+		if(position < noteList.size()) return ITEM_TYPE;
+		else return ADD_NOTE_TYPE;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
+		public ViewHolder(View view) {
+			super(view);
+		}
+	}
+	public static class AddNoteViewHolder extends ViewHolder {
+		ImageView addNoteImage;
+
+		public AddNoteViewHolder(View view) {
+			super(view);
+
+			addNoteImage = view.findViewById(R.id.add_note_button);
+			addNoteImage.setOnClickListener(v -> {
+				Toast.makeText(view.getContext(),"Here we would add a note!",Toast.LENGTH_SHORT).show();
+			});
+		}
+	}
+	public static class ItemViewHolder extends ViewHolder {
 		private final TextView noteTextView;
 		private final ImageView checkBoxView;
 		private Note note = null;
 
-		public ViewHolder(View view) {
+		public ItemViewHolder(View view) {
 			super(view);
 
 			noteTextView = view.findViewById(R.id.note_content);
