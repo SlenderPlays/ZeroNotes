@@ -150,6 +150,8 @@ public class NavButton extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
+		// If the selected background color and deselected background color are not set
+		// then don't bother changing anything. We need both of them.
 		if(selectedBackgroundColor != null && deselectedBackgroundColor != null) {
 			if(selected) {
 				setBackgroundColor(selectedBackgroundColor);
@@ -167,11 +169,13 @@ public class NavButton extends View {
 		int contentHeight = getHeight() - paddingTop - paddingBottom;
 
 		if(navIcon == null) {
+			// Draw the text in the middle if we don't have any icon.
 			canvas.drawText(navDestinationText,
 					paddingLeft + (contentWidth - textWidth) / 2,
 					paddingTop + (contentHeight + textHeight) / 2,
 					navTextPaint);
 		} else {
+			// Draw the text in the bottom middle
 			canvas.drawText(navDestinationText,
 					paddingLeft + (contentWidth - textWidth) / 2,
 					paddingTop + contentHeight - textHeight,
@@ -180,13 +184,17 @@ public class NavButton extends View {
 			textBounds.setEmpty();
 			navTextPaint.getTextBounds(navDestinationText,0,navDestinationText.length(),textBounds);
 
+			// Calculate what space we have left after we take out the text size
 			int leftoverHeight = getHeight() - getPaddingTop() - getPaddingBottom() - textBounds.height();
 
+			// Make sure the icon doesn't go above the remaining space
 			int finalIconHeight = Math.min(iconHeight,leftoverHeight);
 			float aspectRatio = (float)navIcon.getIntrinsicWidth() / (float)navIcon.getIntrinsicHeight();
+			// and re-calculate the width to maintain aspect ratio, and to stop stretching.
 			int finalIconWidth = Math.min(iconWidth,(int)(finalIconHeight * aspectRatio));
 
 
+			// The put the icon in the middle of the nav button and in the middle of the remianing space
 			navIcon.setBounds(
 					paddingLeft + (contentWidth - finalIconWidth)/2,
 					paddingTop + (leftoverHeight - finalIconHeight)/2,

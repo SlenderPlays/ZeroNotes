@@ -7,6 +7,10 @@ import androidx.core.content.res.ResourcesCompat;
 
 import ro.zero.zeronotes.R;
 
+/**
+ * This class is used to house all of the UI resources and data that we might need when we don't have access to a context, and want to use the
+ * main activitie's context.
+ */
 public class UIResourceManager {
 	// ============================
 	// Static variables and methods

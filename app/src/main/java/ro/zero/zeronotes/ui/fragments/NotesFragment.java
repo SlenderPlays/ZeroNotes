@@ -33,16 +33,16 @@ public class NotesFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
-
-
-		ArrayList<Note> dummyNotes = new ArrayList<>();
-		dummyNotes.add(new Note().withText("Walk the dog"));
-		dummyNotes.add(new Note().withText("Walk the cat").withFinishedStatus(true));
-		dummyNotes.add(new Note().withText("Go out with your friends"));
-		dummyNotes.add(new Note().withText("Email the boss"));
-		dummyNotes.add(new Note().withText("Throw a party"));
-
+		// If the save data is empty populate it with some dummy notes. This is only for debug and should be removed at launch.
+		// It also exemplifies how to use the "with" methods.
 		if(DataStorageManager.getInstance().saveData.notes.isEmpty()) {
+			ArrayList<Note> dummyNotes = new ArrayList<>();
+			dummyNotes.add(new Note().withText("Walk the dog"));
+			dummyNotes.add(new Note().withText("Walk the cat").withFinishedStatus(true));
+			dummyNotes.add(new Note().withText("Go out with your friends"));
+			dummyNotes.add(new Note().withText("Email the boss"));
+			dummyNotes.add(new Note().withText("Throw a party"));
+
 			DataStorageManager.getInstance().saveData.notes.addAll(dummyNotes);
 			DataStorageManager.getInstance().save();
 		}

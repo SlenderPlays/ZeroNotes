@@ -25,22 +25,24 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 		this.noteList = noteList;
 	}
 
-	// When the view holder is created
+	// When the view holders are created, this function is called.
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 		if(viewType == ITEM_TYPE) {
 			View view = LayoutInflater.from(viewGroup.getContext())
 					.inflate(R.layout.component_note, viewGroup, false);
+
 			return new ItemViewHolder(view);
 		} else if(viewType == ADD_NOTE_TYPE) {
 			View view = LayoutInflater.from(viewGroup.getContext())
 					.inflate(R.layout.component_add_note, viewGroup, false);
+
 			return new AddNoteViewHolder(view);
 		}
 		return null;
 	}
 
-	// when a view is getting it's data
+	// When the view holder needs new data, this function is called.
 	@Override
 	public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 		int type = getItemViewType(position);
@@ -55,7 +57,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 		}
 	}
 
-	// Return the size of the dataset
+	// Return the size of the dataset. We return one more to have space for the "add note" button.
 	@Override
 	public int getItemCount() {
 		return noteList.size() + 1;

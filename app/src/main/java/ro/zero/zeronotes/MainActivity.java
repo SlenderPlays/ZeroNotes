@@ -18,13 +18,16 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// Initialize the singletons
 		UIResourceManager.init(this);
 		DataStorageManager.init(this);
 
+		// Create teh fragments
 		NotesFragment notesFragment = new NotesFragment();
 		HabitsFragment habitsFragment = new HabitsFragment();
 		MonthlyFragment monthlyFragment = new MonthlyFragment();
 
+		// Create the nav buttons and set their interaction to be exclusive to each other.
 		NavButton notesNavButton = findViewById(R.id.navButton_Notes);
 		NavButton notesNavHabits = findViewById(R.id.navButton_Habits);
 		NavButton notesNavCalendar = findViewById(R.id.navButton_Monthly);
