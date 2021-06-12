@@ -1,6 +1,11 @@
 package ro.zero.zeronotes.storage;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import ro.zero.zeronotes.notes.Note;
 
@@ -12,9 +17,19 @@ public class SaveData {
 	/**
 	 * A list of all of the notes under the "Notes" tab.
 	 */
-	public ArrayList<Note> notes;
+	public Map<LocalDate, ArrayList<Note>> noteMap;
 
 	public SaveData() {
-		notes = new ArrayList<>();
+		noteMap = new HashMap<>();
+	}
+
+	public ArrayList<Note> getNotes(LocalDate date) {
+		if(noteMap.containsKey(date)) {
+			return noteMap.get(date);
+		} else {
+			ArrayList<Note> out = new ArrayList<>();
+			noteMap.put(date,out);
+			return out;
+		}
 	}
 }

@@ -3,11 +3,15 @@ package ro.zero.zeronotes.storage;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
+
+import ro.zero.zeronotes.LocalDateDeserializer;
 
 /**
  * This class is used to house all of the Data Storage implementations, including loading, retrieving and saving data.
@@ -61,7 +65,11 @@ public class DataStorageManager {
 					while (stream.hasNextLine()) {
 						sb.append(stream.nextLine());
 					}
-					saveData = new Gson().fromJson(sb.toString(), SaveData.class);
+					Gson gson = new GsonBuilder()
+							.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
+							.create();
+
+					saveData = gson.fromJson(sb.toString(), SaveData.class);
 				}
 				finally {
 					stream.close();

@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import ro.zero.zeronotes.R;
@@ -33,9 +35,10 @@ public class NotesFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_notes, container, false);
 
+		ArrayList<Note> notes = DataStorageManager.getInstance().saveData.getNotes(LocalDate.now());
 		// If the save data is empty populate it with some dummy notes. This is only for debug and should be removed at launch.
 		// It also exemplifies how to use the "with" methods.
-		if(DataStorageManager.getInstance().saveData.notes.isEmpty()) {
+		if(notes.isEmpty()) {
 			ArrayList<Note> dummyNotes = new ArrayList<>();
 			dummyNotes.add(new Note().withText("Walk the dog"));
 			dummyNotes.add(new Note().withText("Walk the cat").withFinishedStatus(true));
@@ -43,14 +46,14 @@ public class NotesFragment extends Fragment {
 			dummyNotes.add(new Note().withText("Email the boss"));
 			dummyNotes.add(new Note().withText("Throw a party"));
 
-			DataStorageManager.getInstance().saveData.notes.addAll(dummyNotes);
+			notes.addAll(dummyNotes);
 			DataStorageManager.getInstance().save();
 		}
 
 		RecyclerView recyclerView = view.findViewById(R.id.noteRecycler);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(DataStorageManager.getInstance().saveData.notes);
+		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes);
 		recyclerView.setAdapter(adapter);
 
 		return view;
