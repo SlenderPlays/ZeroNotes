@@ -6,15 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.NotesFragment">
 
-    <TextView
-        android:id="@+id/temp_day_selector"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/day_selector_background"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@color/grey_20"
-        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/day_selector_left"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/left_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+            android:id="@+id/day_selector_right"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/right_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/day_selector_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1970.01.01"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/day_selector_right"
+            app:layout_constraintStart_toEndOf="@+id/day_selector_left"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/noteRecycler"
@@ -23,7 +57,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temp_day_selector"
+        app:layout_constraintTop_toBottomOf="@+id/day_selector_background"
         android:paddingTop="8dp"
         android:paddingHorizontal="4dp"/>
 

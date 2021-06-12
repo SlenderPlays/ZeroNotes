@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BF000000">
+
+    <View
+        android:id="@+id/popup_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="40dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/popup_select_date_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </View>
+
+    <TextView
+        android:id="@+id/popup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Select a date"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="@+id/popup_content"
+        app:layout_constraintStart_toStartOf="@+id/popup_content"
+        app:layout_constraintTop_toTopOf="@+id/popup_content" />
+
+    <CalendarView
+        android:id="@+id/popup_calendar"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/popup_select_date_calendar_background"
+        app:layout_constraintEnd_toEndOf="@+id/popup_content"
+        app:layout_constraintStart_toStartOf="@+id/popup_content"
+        app:layout_constraintTop_toBottomOf="@+id/popup_title" />
+
+    <Button
+        android:id="@+id/popup_select_button"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/teal_200"
+        android:textColor="@color/white"
+        android:text="Select"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/popup_content"
+        app:layout_constraintEnd_toEndOf="@+id/popup_content"
+        app:layout_constraintStart_toStartOf="@+id/popup_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
