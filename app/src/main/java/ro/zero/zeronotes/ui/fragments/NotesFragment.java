@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.storage.StorageManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -21,8 +23,10 @@ import java.util.ArrayList;
 
 import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
+import ro.zero.zeronotes.notes.NoteType;
 import ro.zero.zeronotes.storage.DataStorageManager;
 import ro.zero.zeronotes.ui.NoteRecyclerViewAdapter;
+import ro.zero.zeronotes.ui.popups.CreateNotePopup;
 import ro.zero.zeronotes.ui.popups.SelectDatePopup;
 
 public class NotesFragment extends Fragment {
@@ -49,24 +53,6 @@ public class NotesFragment extends Fragment {
 		// ===============
 		recyclerView = view.findViewById(R.id.noteRecycler);
 		recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
-		ArrayList<Note> notes = DataStorageManager.getInstance().saveData.getNotes(selectedDate);
-		// If the save data is empty populate it with some dummy notes. This is only for debug and should be removed at launch.
-		// It also exemplifies how to use the "with" methods.
-		if(notes.isEmpty()) {
-			ArrayList<Note> dummyNotes = new ArrayList<>();
-			dummyNotes.add(new Note().withText("Walk the dog"));
-			dummyNotes.add(new Note().withText("Walk the cat").withFinishedStatus(true));
-			dummyNotes.add(new Note().withText("Go out with your friends"));
-			dummyNotes.add(new Note().withText("Email the boss"));
-			dummyNotes.add(new Note().withText("Throw a party"));
-
-			notes.addAll(dummyNotes);
-			DataStorageManager.getInstance().save();
-		}
-
-		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes);
-		recyclerView.setAdapter(adapter);
 		// ==========
 		// Calendar
 		// ==========
@@ -80,30 +66,58 @@ public class NotesFragment extends Fragment {
 
 			selectDatePopup.setOnPopupDismissListener(() -> {
 				if(selectDatePopup.isCancelled()) return;
-				updateDate(selectDatePopup.getSelectedDate());
+				updateDate(inflater,selectDatePopup.getSelectedDate());
 			});
 		});
 		daySelectorLeft.setOnClickListener(v -> {
-			updateDate(selectedDate.minusDays(1));
+			updateDate(inflater,selectedDate.minusDays(1));
 		});
 		daySelectorRight.setOnClickListener(v -> {
-			updateDate(selectedDate.plusDays(1));
+			updateDate(inflater,selectedDate.plusDays(1));
 		});
 
-		updateDate(selectedDate);
+		updateDate(inflater,selectedDate);
 		return view;
 	}
-	private void updateDate(LocalDate date) {
+	private void updateDate(LayoutInflater inflater, LocalDate date) {
 		selectedDate = date;
 		dateTextView.setText(selectedDate.toString());
-		updateRecyclerView();
+		updateRecyclerView(inflater);
 	}
 
-	private void updateRecyclerView() {
+	private void updateRecyclerView(LayoutInflater inflater) {
 		if(recyclerView == null) return;
 
 		ArrayList<Note> notes = DataStorageManager.getInstance().saveData.getNotes(selectedDate);
-		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes);
+		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes, v -> {
+			CreateNotePopup createNotePopup = new CreateNotePopup();
+			createNotePopup.showPopupWindow(inflater,selectedDate);
+
+			createNotePopup.setOnPopupDismissListener(() -> {
+				if(createNotePopup.isCancelled()) return;
+
+				switch (createNotePopup.getNoteType()) {
+					case NoteType.NOTE: {
+						Note newNote = new Note().withText(createNotePopup.getContents());
+						LocalDate noteDate = createNotePopup.getDate();
+						DataStorageManager.getInstance().saveData.getNotes(noteDate).add(newNote);
+						DataStorageManager.getInstance().save();
+						break;
+					}
+					case NoteType.HABIT: {
+						Toast.makeText(getContext(),"Can't make Habits now.",Toast.LENGTH_SHORT).show();
+						break;
+					}
+					case NoteType.MONTHLY: {
+						Toast.makeText(getContext(),"Can't make Monthly now.",Toast.LENGTH_SHORT).show();
+						break;
+					}
+					default: {
+						break;
+					}
+				}
+			});
+		});
 		recyclerView.setAdapter(adapter);
 	}
 }

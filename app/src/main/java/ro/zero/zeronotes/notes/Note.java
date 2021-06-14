@@ -29,11 +29,9 @@ public class Note {
 	public UUID id;
 	public String noteText;
 	public boolean finished = false;
-	public Date date;
 
 	public Note() {
 		id = UUID.randomUUID();
-		date = new Date(System.currentTimeMillis());
 	}
 
 	/**
@@ -52,15 +50,6 @@ public class Note {
 	 */
 	public Note withFinishedStatus(boolean finished) {
 		this.finished = finished;
-		return this;
-	}
-	/**
-	 * Set the date of creation of the note, and return this object (the note) to be able to chain multiple with commands.
-	 * @param str Date of creation
-	 * @return this note
-	 */
-	public Note withDate(Date date) {
-		this.date = date;
 		return this;
 	}
 

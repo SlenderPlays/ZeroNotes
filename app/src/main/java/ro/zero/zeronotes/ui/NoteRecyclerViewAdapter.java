@@ -14,6 +14,7 @@ import java.util.List;
 import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.storage.DataStorageManager;
+import ro.zero.zeronotes.ui.popups.CreateNotePopup;
 
 public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
 	private static final int ITEM_TYPE = 0;
@@ -21,10 +22,12 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 
 	private List<Note> noteList;
 
-	public NoteRecyclerViewAdapter(List<Note> noteList) {
-		this.noteList = noteList;
-	}
+	private View.OnClickListener addNoteButtonClickListener;
 
+	public NoteRecyclerViewAdapter(List<Note> noteList, View.OnClickListener listener) {
+		this.noteList = noteList;
+		this.addNoteButtonClickListener = listener;
+	}
 	// When the view holders are created, this function is called.
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -37,7 +40,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 			View view = LayoutInflater.from(viewGroup.getContext())
 					.inflate(R.layout.component_add_note, viewGroup, false);
 
-			return new AddNoteViewHolder(view);
+			return new AddNoteViewHolder(view,addNoteButtonClickListener);
 		}
 		return null;
 	}
@@ -77,13 +80,11 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	public static class AddNoteViewHolder extends ViewHolder {
 		ImageView addNoteImage;
 
-		public AddNoteViewHolder(View view) {
+		public AddNoteViewHolder(View view, View.OnClickListener listener) {
 			super(view);
 
 			addNoteImage = view.findViewById(R.id.add_note_button);
-			addNoteImage.setOnClickListener(v -> {
-				Toast.makeText(view.getContext(),"Here we would add a note!",Toast.LENGTH_SHORT).show();
-			});
+			addNoteImage.setOnClickListener(listener);
 		}
 	}
 	public static class ItemViewHolder extends ViewHolder {
