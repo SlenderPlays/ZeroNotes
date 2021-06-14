@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Zero\'s Notes</string>
+    <string-array name="note_types">
+        <item>Note</item>
+        <item>Habit</item>
+        <item>Monthly</item>
+    </string-array>
 </resources>

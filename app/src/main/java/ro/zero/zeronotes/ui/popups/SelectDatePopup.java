@@ -10,7 +10,6 @@ import android.widget.PopupWindow;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +25,8 @@ public class SelectDatePopup {
 	public void showPopupWindow(LayoutInflater inflater, LocalDate currentDate) {
 		// Create View
 		View view = inflater.inflate(R.layout.popup_select_date, null);
-		CalendarView calendarView = view.findViewById(R.id.popup_calendar);
-		Button selectButton = view.findViewById(R.id.popup_select_button);
+		CalendarView calendarView = view.findViewById(R.id.popup_select_date_calendar);
+		Button selectButton = view.findViewById(R.id.popup_select_date_select_button);
 
 		calendarView.setDate(
 				currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
