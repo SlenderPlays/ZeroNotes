@@ -23,11 +23,11 @@ import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.storage.DataStorageManager;
 import ro.zero.zeronotes.ui.NoteRecyclerViewAdapter;
+import ro.zero.zeronotes.ui.popups.SelectDatePopup;
 
 public class NotesFragment extends Fragment {
 
 	private LocalDate selectedDate = LocalDate.now();
-	private LocalDate tempCalendarDate = selectedDate;
 	private RecyclerView recyclerView;
 	private TextView dateTextView;
 
@@ -75,30 +75,12 @@ public class NotesFragment extends Fragment {
 		ImageView daySelectorRight = view.findViewById(R.id.day_selector_right);
 
 		dateTextView.setOnClickListener(v -> {
-			View popup = inflater.inflate(R.layout.popup_select_date,null);
+			SelectDatePopup selectDatePopup = new SelectDatePopup();
+			selectDatePopup.showPopupWindow(inflater,selectedDate);
 
-			final PopupWindow popupWindow = new PopupWindow(popup, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-			popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
-
-
-			popup.setOnClickListener(v1 -> {
-				popupWindow.dismiss();
-			});
-			// Store the newly selected date into a temp variable and assign it to the thing we are working with only and only when
-			// we press the "select" button.
-			CalendarView calendarView = popup.findViewById(R.id.popup_calendar);
-			calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-				tempCalendarDate = LocalDate.of(year,month + 1,dayOfMonth);
-			});
-			popup.findViewById(R.id.popup_select_button).setOnClickListener(v1 -> {
-				selectedDate = tempCalendarDate;
-				popupWindow.dismiss();
-			});
-
-			// On dismiss, update the date.
-			popupWindow.setOnDismissListener(() -> {
-				updateDate(selectedDate);
+			selectDatePopup.setOnPopupDismissListener(() -> {
+				if(selectDatePopup.isCancelled()) return;
+				updateDate(selectDatePopup.getSelectedDate());
 			});
 		});
 		daySelectorLeft.setOnClickListener(v -> {
