@@ -20,7 +20,7 @@ public class SelectDatePopup {
 	private LocalDate selectedDate;
 	private boolean cancelled = true;
 
-	private List<OnPopupDismissListener> listeners = new ArrayList<OnPopupDismissListener>();
+	private List<OnPopupDismissListener> listeners = new ArrayList<>();
 
 	public void showPopupWindow(LayoutInflater inflater, LocalDate currentDate) {
 		// Create View

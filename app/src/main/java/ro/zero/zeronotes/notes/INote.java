@@ -2,7 +2,6 @@ package ro.zero.zeronotes.notes;
 
 import androidx.annotation.Nullable;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -22,37 +21,20 @@ import java.util.UUID;
  * <br>
  * <code>new Note().withText(...).withFinishedStatus(...)</code> and so on.
  */
-public class Note extends INote {
-	public boolean finished = false;
-
-	public Note() {
-		super();
-		noteType = NoteType.NOTE;
-	}
-
+public class INote {
 	/**
-	 * Set the text of the note, and return this object (the note) to be able to chain multiple with commands.
-	 * @param str The text of the note
-	 * @return this note
+	 * The Unique identifier by which the note is identified by. If two notes have the same id they are considered the same (equal).
 	 */
-	public Note withText(String str) {
-		noteText = str;
-		return this;
-	}
-	/**
-	 * Set the finished status of the note, and return this object (the note) to be able to chain multiple with commands.
-	 * @param finished True if the note is "done"/"finished", and false otherwise
-	 * @return this note
-	 */
-	public Note withFinishedStatus(boolean finished) {
-		this.finished = finished;
-		return this;
-	}
+	public UUID id;
+	public String noteText;
+	public int noteType;
+
+	public INote() { id = UUID.randomUUID(); }
 
 	@Override
 	public boolean equals(@Nullable Object obj) {
 		if(obj == null) return false;
-		if(!(obj instanceof INote)) return false;
+		if(obj.getClass().equals(this.getClass())) return false;
 		return this.id == ((INote) obj).id;
 	}
 }

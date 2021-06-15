@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -14,14 +13,16 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 import ro.zero.zeronotes.R;
+import ro.zero.zeronotes.notes.INote;
+import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.notes.NoteType;
 
-public class CreateNotePopup {
+public class EditNotePopup {
+
 	private String contents;
 	private int noteType = -1;
 	private LocalDate date;
@@ -29,8 +30,10 @@ public class CreateNotePopup {
 
 	private List<OnPopupDismissListener> listeners = new ArrayList<>();
 
-	public void showPopupWindow(LayoutInflater inflater, LocalDate currentDate, int defaultNoteType) {
+	public void showPopupWindow(LayoutInflater inflater, INote note, LocalDate currentDate) {
 		// Create View
+		// We are going to re-use the create note popup, with some slight modifications we can
+		// easily do.
 		View view = inflater.inflate(R.layout.popup_create_note, null);
 		TextView noteContents = view.findViewById(R.id.popup_create_note_note_text);
 		Spinner noteTypeSelector = view.findViewById(R.id.popup_create_note_note_type);
@@ -41,8 +44,13 @@ public class CreateNotePopup {
 		ConstraintLayout dateContainer = view.findViewById(R.id.popup_create_note_date_container);
 
 		date = currentDate;
+
+		((TextView)view.findViewById(R.id.popup_create_note_title)).setText("Edit a note");
+		((Button)view.findViewById(R.id.popup_create_note_create_button)).setText("Edit");
+
+		noteContents.setText(note.noteText);
 		dateTextButton.setText(date.toString());
-		noteTypeSelector.setSelection(defaultNoteType);
+		noteTypeSelector.setSelection(note.noteType);
 		// Create Popup Window
 		final PopupWindow popupWindow = new PopupWindow(
 				view,

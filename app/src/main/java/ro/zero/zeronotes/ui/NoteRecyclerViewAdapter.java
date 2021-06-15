@@ -23,10 +23,10 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	private List<Note> noteList;
 
 	private View.OnClickListener addNoteButtonClickListener;
+	private NoteLongClickListener noteLongClickListener;
 
-	public NoteRecyclerViewAdapter(List<Note> noteList, View.OnClickListener listener) {
+	public NoteRecyclerViewAdapter(List<Note> noteList) {
 		this.noteList = noteList;
-		this.addNoteButtonClickListener = listener;
 	}
 	// When the view holders are created, this function is called.
 	@Override
@@ -35,7 +35,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 			View view = LayoutInflater.from(viewGroup.getContext())
 					.inflate(R.layout.component_note, viewGroup, false);
 
-			return new ItemViewHolder(view);
+			return new ItemViewHolder(view,noteLongClickListener);
 		} else if(viewType == ADD_NOTE_TYPE) {
 			View view = LayoutInflater.from(viewGroup.getContext())
 					.inflate(R.layout.component_add_note, viewGroup, false);
@@ -72,6 +72,14 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 		else return ADD_NOTE_TYPE;
 	}
 
+	public void setAddNoteButtonClickListener(View.OnClickListener addNoteButtonClickListener) {
+		this.addNoteButtonClickListener = addNoteButtonClickListener;
+	}
+
+	public void setNoteLongClickListener(NoteLongClickListener noteLongClickListener) {
+		this.noteLongClickListener = noteLongClickListener;
+	}
+
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		public ViewHolder(View view) {
 			super(view);
@@ -92,7 +100,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 		private final ImageView checkBoxView;
 		private Note note = null;
 
-		public ItemViewHolder(View view) {
+		public ItemViewHolder(View view, NoteLongClickListener listener) {
 			super(view);
 
 			noteTextView = view.findViewById(R.id.note_content);
@@ -106,6 +114,10 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 					// TODO: perhaps cache these changes and mass-commit them?
 					DataStorageManager.getInstance().save();
 				}
+			});
+			view.setOnLongClickListener(v -> {
+				listener.clickedNote = note;
+				return listener.onLongClick(v);
 			});
 		}
 

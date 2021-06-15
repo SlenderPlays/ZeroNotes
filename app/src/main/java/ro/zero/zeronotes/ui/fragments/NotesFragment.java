@@ -25,8 +25,10 @@ import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.notes.NoteType;
 import ro.zero.zeronotes.storage.DataStorageManager;
+import ro.zero.zeronotes.ui.NoteLongClickListener;
 import ro.zero.zeronotes.ui.NoteRecyclerViewAdapter;
 import ro.zero.zeronotes.ui.popups.CreateNotePopup;
+import ro.zero.zeronotes.ui.popups.NoteOptionsPopup;
 import ro.zero.zeronotes.ui.popups.SelectDatePopup;
 
 public class NotesFragment extends Fragment {
@@ -89,9 +91,10 @@ public class NotesFragment extends Fragment {
 		if(recyclerView == null) return;
 
 		ArrayList<Note> notes = DataStorageManager.getInstance().saveData.getNotes(selectedDate);
-		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes, v -> {
+		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes);
+		adapter.setAddNoteButtonClickListener(v -> {
 			CreateNotePopup createNotePopup = new CreateNotePopup();
-			createNotePopup.showPopupWindow(inflater,selectedDate);
+			createNotePopup.showPopupWindow(inflater,selectedDate,NoteType.NOTE);
 
 			createNotePopup.setOnPopupDismissListener(() -> {
 				if(createNotePopup.isCancelled()) return;
@@ -116,7 +119,55 @@ public class NotesFragment extends Fragment {
 						break;
 					}
 				}
+				updateRecyclerView(inflater);
 			});
+		});
+		adapter.setNoteLongClickListener(new NoteLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				NoteOptionsPopup noteOptionsPopup = new NoteOptionsPopup();
+				noteOptionsPopup.showPopupWindow(inflater,clickedNote,selectedDate);
+				noteOptionsPopup.setOnPopupDismissListener( () -> {
+					if(noteOptionsPopup.isRemovalRequested()) {
+						DataStorageManager.getInstance().saveData
+								.getNotes(selectedDate).remove((Note)clickedNote);
+						DataStorageManager.getInstance().save();
+					}
+					else if(noteOptionsPopup.isNoteEdited()) {
+						switch (noteOptionsPopup.getNewNoteType()) {
+							case NoteType.NOTE: {
+								Note editedNote = (Note)clickedNote;
+								editedNote.noteText = noteOptionsPopup.getNewContents();
+								LocalDate newDate = noteOptionsPopup.getNewDate();
+
+								if(newDate != selectedDate) {
+									DataStorageManager.getInstance().saveData
+											.getNotes(selectedDate).remove(editedNote);
+
+									DataStorageManager.getInstance().saveData
+											.getNotes(newDate).add(editedNote);
+								}
+
+								DataStorageManager.getInstance().save();
+								break;
+							}
+							case NoteType.HABIT: {
+								Toast.makeText(getContext(),"Can't edit to Habits now.",Toast.LENGTH_SHORT).show();
+								break;
+							}
+							case NoteType.MONTHLY: {
+								Toast.makeText(getContext(),"Can't edit to Monthly now.",Toast.LENGTH_SHORT).show();
+								break;
+							}
+							default: {
+								break;
+							}
+						}
+					}
+					updateRecyclerView(inflater);
+				});
+				return false;
+			}
 		});
 		recyclerView.setAdapter(adapter);
 	}
