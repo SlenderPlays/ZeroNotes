@@ -1,4 +1,4 @@
-package ro.zero.zeronotes;
+package ro.zero.zeronotes.serialization;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

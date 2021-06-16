@@ -3,6 +3,6 @@
     <string-array name="note_types">
         <item>Note</item>
         <item>Habit</item>
-        <item>Monthly</item>
+        <item>Project</item>
     </string-array>
 </resources>

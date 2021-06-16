@@ -6,18 +6,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.storage.StorageManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.time.Clock;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -108,7 +103,7 @@ public class NotesFragment extends Fragment {
 						Toast.makeText(getContext(),"Can't make Habits now.",Toast.LENGTH_SHORT).show();
 						break;
 					}
-					case NoteType.MONTHLY: {
+					case NoteType.PROJECT: {
 						Toast.makeText(getContext(),"Can't make Monthly now.",Toast.LENGTH_SHORT).show();
 						break;
 					}

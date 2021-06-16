@@ -12,10 +12,10 @@ import ro.zero.zeronotes.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MonthlyFragment#newInstance} factory method to
+ * Use the {@link ProjectsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonthlyFragment extends Fragment {
+public class ProjectsFragment extends Fragment {
 
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class MonthlyFragment extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
-	public MonthlyFragment() {
+	public ProjectsFragment() {
 		// Required empty public constructor
 	}
 
@@ -39,8 +39,8 @@ public class MonthlyFragment extends Fragment {
 	 * @return A new instance of fragment CalendarFragment.
 	 */
 	// TODO: Rename and change types and number of parameters
-	public static MonthlyFragment newInstance(String param1, String param2) {
-		MonthlyFragment fragment = new MonthlyFragment();
+	public static ProjectsFragment newInstance(String param1, String param2) {
+		ProjectsFragment fragment = new ProjectsFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class MonthlyFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_calendar, container, false);
+		return inflater.inflate(R.layout.fragment_projects, container, false);
 	}
 }

@@ -2,16 +2,19 @@ package ro.zero.zeronotes.notes;
 
 import androidx.annotation.Nullable;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
+import ro.zero.zeronotes.serialization.Exclude;
+
 /**
- * The regular Note class, used in the "Notes" section of the program. This class is mostly used for data-storage rather then logic implementation.
+ * The regular Note class, used in the "Notes" section of the program. This class is mostly used for
+ * data-storage rather then logic implementation.
  * <br><br>
- * The Note contains an UUID by which it can be identified, the text of the note, the date of creation (used to show the note only on that day) and
- * a boolean depicting whether it has been finished or not.
- * <br>
- * The UUID is set automatically by the constructor.
+ * The Note extends the base INote class, with the addition of a "finished" logic variable that
+ * stores whether the note has been completed or not. It also has a field "date" which is not stored,
+ * rather it is acquired at runtime, just after serialization.
  * <br><br>
  * To add values to a note you can use directly access it's members
  * <br>
@@ -22,18 +25,15 @@ import java.util.UUID;
  * <br>
  * <code>new Note().withText(...).withFinishedStatus(...)</code> and so on.
  */
-public class Note {
-	/**
-	 * The Unique identifier by which the note is identified by. If two notes have the same id they are considered the same (equal).
-	 */
-	public UUID id;
-	public String noteText;
+public class Note extends INote {
 	public boolean finished = false;
+	@Exclude // Exclude from serialization, date is set at runtime only.
+	public LocalDate date;
 
 	public Note() {
-		id = UUID.randomUUID();
+		super();
+		noteType = NoteType.NOTE;
 	}
-
 	/**
 	 * Set the text of the note, and return this object (the note) to be able to chain multiple with commands.
 	 * @param str The text of the note
@@ -51,12 +51,14 @@ public class Note {
 	public Note withFinishedStatus(boolean finished) {
 		this.finished = finished;
 		return this;
-	}
+	}/**
+	 * Set the date of the note, and return this object (the note) to be able to chain multiple with commands.
+	 * @param date The local date of when this note is needed.
+	 * @return this note
+	 */
 
-	@Override
-	public boolean equals(@Nullable Object obj) {
-		if(obj == null) return false;
-		if(obj.getClass().equals(this.getClass())) return false;
-		return this.id == ((Note) obj).id;
+	public Note withDate(LocalDate date) {
+		this.date = date;
+		return this;
 	}
 }

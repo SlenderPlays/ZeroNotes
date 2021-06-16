@@ -8,7 +8,7 @@ import ro.zero.zeronotes.storage.DataStorageManager;
 import ro.zero.zeronotes.ui.NavButton;
 import ro.zero.zeronotes.ui.UIResourceManager;
 import ro.zero.zeronotes.ui.fragments.HabitsFragment;
-import ro.zero.zeronotes.ui.fragments.MonthlyFragment;
+import ro.zero.zeronotes.ui.fragments.ProjectsFragment;
 import ro.zero.zeronotes.ui.fragments.NotesFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,30 +25,30 @@ public class MainActivity extends AppCompatActivity {
 		// Create teh fragments
 		NotesFragment notesFragment = new NotesFragment();
 		HabitsFragment habitsFragment = new HabitsFragment();
-		MonthlyFragment monthlyFragment = new MonthlyFragment();
+		ProjectsFragment projectsFragment = new ProjectsFragment();
 
 		// Create the nav buttons and set their interaction to be exclusive to each other.
 		NavButton notesNavButton = findViewById(R.id.navButton_Notes);
 		NavButton notesNavHabits = findViewById(R.id.navButton_Habits);
-		NavButton notesNavCalendar = findViewById(R.id.navButton_Monthly);
+		NavButton notesNavProjects = findViewById(R.id.navButton_Project);
 
 		notesNavButton.setOnClickListener(v -> {
 			notesNavButton.select();
 			notesNavHabits.deselect();
-			notesNavCalendar.deselect();
+			notesNavProjects.deselect();
 			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,notesFragment).commit();
 		});
 		notesNavHabits.setOnClickListener(v -> {
 			notesNavButton.deselect();
 			notesNavHabits.select();
-			notesNavCalendar.deselect();
+			notesNavProjects.deselect();
 			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,habitsFragment).commit();
 		});
-		notesNavCalendar.setOnClickListener(v -> {
+		notesNavProjects.setOnClickListener(v -> {
 			notesNavButton.deselect();
 			notesNavHabits.deselect();
-			notesNavCalendar.select();
-			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, monthlyFragment).commit();
+			notesNavProjects.select();
+			getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, projectsFragment).commit();
 		});
 
 		// Initialize Activity
