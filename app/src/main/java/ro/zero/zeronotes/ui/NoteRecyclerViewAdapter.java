@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +13,7 @@ import java.util.List;
 import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.storage.DataStorageManager;
-import ro.zero.zeronotes.ui.popups.CreateNotePopup;
+import ro.zero.zeronotes.ui.listeners.implementations.OnNoteLongClickListenerImpl;
 
 public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
 	private static final int ITEM_TYPE = 0;
@@ -23,10 +22,17 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	private List<Note> noteList;
 
 	private View.OnClickListener addNoteButtonClickListener;
+	private OnNoteLongClickListenerImpl noteLongClickListener;
 
-	public NoteRecyclerViewAdapter(List<Note> noteList, View.OnClickListener listener) {
+	public NoteRecyclerViewAdapter(List<Note> noteList) {
 		this.noteList = noteList;
-		this.addNoteButtonClickListener = listener;
+	}
+
+	public void setOnAddButtonClickListener(View.OnClickListener listener) {
+		addNoteButtonClickListener = listener;
+	}
+	public void setNoteLongClickListener(OnNoteLongClickListenerImpl listener) {
+		noteLongClickListener = listener;
 	}
 	// When the view holders are created, this function is called.
 	@Override
@@ -35,7 +41,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 			View view = LayoutInflater.from(viewGroup.getContext())
 					.inflate(R.layout.component_note, viewGroup, false);
 
-			return new ItemViewHolder(view);
+			return new ItemViewHolder(view,noteLongClickListener);
 		} else if(viewType == ADD_NOTE_TYPE) {
 			View view = LayoutInflater.from(viewGroup.getContext())
 					.inflate(R.layout.component_add_note, viewGroup, false);
@@ -84,7 +90,9 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 			super(view);
 
 			addNoteImage = view.findViewById(R.id.add_note_button);
-			addNoteImage.setOnClickListener(listener);
+			if(listener != null) {
+				addNoteImage.setOnClickListener(listener);
+			}
 		}
 	}
 	public static class ItemViewHolder extends ViewHolder {
@@ -92,7 +100,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 		private final ImageView checkBoxView;
 		private Note note = null;
 
-		public ItemViewHolder(View view) {
+		public ItemViewHolder(View view, OnNoteLongClickListenerImpl listener) {
 			super(view);
 
 			noteTextView = view.findViewById(R.id.note_content);
@@ -107,6 +115,13 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 					DataStorageManager.getInstance().save();
 				}
 			});
+
+			if(listener != null) {
+				view.setOnLongClickListener(v -> {
+					listener.clickedNote = note;
+					return listener.onLongClick(v);
+				});
+			}
 		}
 
 		public void setText(String str) {

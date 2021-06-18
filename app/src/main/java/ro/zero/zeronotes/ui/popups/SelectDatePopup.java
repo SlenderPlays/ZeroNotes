@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ro.zero.zeronotes.R;
+import ro.zero.zeronotes.ui.listeners.OnPopupDismissListener;
 
 public class SelectDatePopup {
 
 	private LocalDate selectedDate;
 	private boolean cancelled = true;
 
-	private List<OnPopupDismissListener> listeners = new ArrayList<OnPopupDismissListener>();
+	private final List<OnPopupDismissListener> listeners = new ArrayList<>();
 
 	public void showPopupWindow(LayoutInflater inflater, LocalDate currentDate) {
 		// Create View
@@ -64,7 +65,7 @@ public class SelectDatePopup {
 		popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 	}
 
-	public void setOnPopupDismissListener(OnPopupDismissListener listener) {
+	public void addOnPopupDismissListener(OnPopupDismissListener listener) {
 		this.listeners.add(listener);
 	}
 

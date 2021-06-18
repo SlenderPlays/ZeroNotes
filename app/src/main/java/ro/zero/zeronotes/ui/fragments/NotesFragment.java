@@ -20,8 +20,9 @@ import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.notes.NoteType;
 import ro.zero.zeronotes.storage.DataStorageManager;
+import ro.zero.zeronotes.ui.listeners.implementations.OnNoteLongClickListenerImpl;
 import ro.zero.zeronotes.ui.NoteRecyclerViewAdapter;
-import ro.zero.zeronotes.ui.popups.CreateNotePopup;
+import ro.zero.zeronotes.ui.listeners.implementations.OnAddNoteButtonClickImpl;
 import ro.zero.zeronotes.ui.popups.SelectDatePopup;
 
 public class NotesFragment extends Fragment {
@@ -57,23 +58,24 @@ public class NotesFragment extends Fragment {
 
 		dateTextView.setOnClickListener(v -> {
 			SelectDatePopup selectDatePopup = new SelectDatePopup();
-			selectDatePopup.showPopupWindow(inflater,selectedDate);
+			selectDatePopup.showPopupWindow(inflater, selectedDate);
 
-			selectDatePopup.setOnPopupDismissListener(() -> {
-				if(selectDatePopup.isCancelled()) return;
-				updateDate(inflater,selectDatePopup.getSelectedDate());
+			selectDatePopup.addOnPopupDismissListener(() -> {
+				if (selectDatePopup.isCancelled()) return;
+				updateDate(inflater, selectDatePopup.getSelectedDate());
 			});
 		});
 		daySelectorLeft.setOnClickListener(v -> {
-			updateDate(inflater,selectedDate.minusDays(1));
+			updateDate(inflater, selectedDate.minusDays(1));
 		});
 		daySelectorRight.setOnClickListener(v -> {
-			updateDate(inflater,selectedDate.plusDays(1));
+			updateDate(inflater, selectedDate.plusDays(1));
 		});
 
-		updateDate(inflater,selectedDate);
+		updateDate(inflater, selectedDate);
 		return view;
 	}
+
 	private void updateDate(LayoutInflater inflater, LocalDate date) {
 		selectedDate = date;
 		dateTextView.setText(selectedDate.toString());
@@ -81,38 +83,14 @@ public class NotesFragment extends Fragment {
 	}
 
 	private void updateRecyclerView(LayoutInflater inflater) {
-		if(recyclerView == null) return;
+		if (recyclerView == null) return;
 
 		ArrayList<Note> notes = DataStorageManager.getInstance().saveData.getNotes(selectedDate);
-		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes, v -> {
-			CreateNotePopup createNotePopup = new CreateNotePopup();
-			createNotePopup.showPopupWindow(inflater,selectedDate);
+		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes);
 
-			createNotePopup.setOnPopupDismissListener(() -> {
-				if(createNotePopup.isCancelled()) return;
+		adapter.setOnAddButtonClickListener(new OnAddNoteButtonClickImpl(inflater, selectedDate, NoteType.NOTE));
+		adapter.setNoteLongClickListener(new OnNoteLongClickListenerImpl(inflater));
 
-				switch (createNotePopup.getNoteType()) {
-					case NoteType.NOTE: {
-						Note newNote = new Note().withText(createNotePopup.getContents());
-						LocalDate noteDate = createNotePopup.getDate();
-						DataStorageManager.getInstance().saveData.getNotes(noteDate).add(newNote);
-						DataStorageManager.getInstance().save();
-						break;
-					}
-					case NoteType.HABIT: {
-						Toast.makeText(getContext(),"Can't make Habits now.",Toast.LENGTH_SHORT).show();
-						break;
-					}
-					case NoteType.PROJECT: {
-						Toast.makeText(getContext(),"Can't make Monthly now.",Toast.LENGTH_SHORT).show();
-						break;
-					}
-					default: {
-						break;
-					}
-				}
-			});
-		});
 		recyclerView.setAdapter(adapter);
 	}
 }
