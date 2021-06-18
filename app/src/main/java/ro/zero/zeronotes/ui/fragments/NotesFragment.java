@@ -88,7 +88,7 @@ public class NotesFragment extends Fragment {
 		ArrayList<Note> notes = DataStorageManager.getInstance().saveData.getNotes(selectedDate);
 		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes);
 
-		adapter.setOnAddButtonClickListener(new OnAddNoteButtonClickImpl(inflater, selectedDate, NoteType.NOTE));
+		adapter.setOnAddButtonClickListener(new OnAddNoteButtonClickImpl(adapter, inflater, selectedDate, NoteType.NOTE));
 		adapter.setNoteLongClickListener(new OnNoteLongClickListenerImpl(inflater));
 
 		recyclerView.setAdapter(adapter);

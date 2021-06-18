@@ -3,6 +3,8 @@ package ro.zero.zeronotes.ui.listeners.implementations;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.time.LocalDate;
 
 import ro.zero.zeronotes.notes.Habit;
@@ -17,8 +19,10 @@ public class OnAddNoteButtonClickImpl implements View.OnClickListener {
 	LayoutInflater inflater;
 	LocalDate defaultDate;
 	int defaultNoteType;
+	RecyclerView.Adapter adapter;
 
-	public OnAddNoteButtonClickImpl(LayoutInflater inflater, LocalDate defaultDate, int defaultNoteType) {
+	public OnAddNoteButtonClickImpl(RecyclerView.Adapter adapter, LayoutInflater inflater, LocalDate defaultDate, int defaultNoteType) {
+		this.adapter = adapter;
 		this.inflater = inflater;
 		this.defaultDate = defaultDate;
 		this.defaultNoteType = defaultNoteType;
@@ -58,6 +62,10 @@ public class OnAddNoteButtonClickImpl implements View.OnClickListener {
 					break;
 				}
 			}
+
+			// For whatever reason it works without this, but to prevent future bugs, I'll let this
+			// sit here unless I find that it actually does not solve any (possible) issues.
+			adapter.notifyDataSetChanged();
 		});
 	}
 }
