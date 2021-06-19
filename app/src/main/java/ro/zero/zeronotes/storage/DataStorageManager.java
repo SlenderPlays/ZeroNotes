@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import ro.zero.zeronotes.serialization.AnnotationExclusionStrategy;
 import ro.zero.zeronotes.serialization.LocalDateDeserializer;
+import ro.zero.zeronotes.serialization.LocalDateSerializer;
 
 /**
  * This class is used to house all of the Data Storage implementations, including loading, retrieving and saving data.
@@ -66,13 +67,18 @@ public class DataStorageManager {
 					while (stream.hasNextLine()) {
 						sb.append(stream.nextLine());
 					}
-					Gson gson = new GsonBuilder()
-							.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
-							.setExclusionStrategies(new AnnotationExclusionStrategy())
-							.create();
+					if(sb.toString().isEmpty()) {
+						createNewSaveData();
+					}
+					else {
+						Gson gson = new GsonBuilder()
+								.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
+								.setExclusionStrategies(new AnnotationExclusionStrategy())
+								.create();
 
-					saveData = gson.fromJson(sb.toString(), SaveData.class);
-					saveData.prepareData();
+						saveData = gson.fromJson(sb.toString(), SaveData.class);
+						saveData.prepareData();
+					}
 				}
 				finally {
 					stream.close();
@@ -95,8 +101,9 @@ public class DataStorageManager {
 		try {
 			FileWriter stream = new FileWriter(saveDataFilePath);
 			try {
-				Gson gson = new GsonBuilder().
-						setExclusionStrategies(new AnnotationExclusionStrategy())
+				Gson gson = new GsonBuilder()
+						.setExclusionStrategies(new AnnotationExclusionStrategy())
+						.registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
 						.create();
 				String str = gson.toJson(saveData);
 				stream.write(str);

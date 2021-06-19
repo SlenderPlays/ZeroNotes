@@ -30,10 +30,10 @@ public class UIResourceManager {
 	// ============================
 	// Resources
 	// ============================
-	Drawable note_uncheckedIcon = null;
-	Drawable note_checkedIcon = null;
-	int note_textColor_default = 0;
-	int note_textColor_finished = 0;
+	public Drawable note_uncheckedIcon = null;
+	public Drawable note_checkedIcon = null;
+	public int note_textColor_default = 0;
+	public int note_textColor_finished = 0;
 
 	private UIResourceManager(Context context) {
 		note_uncheckedIcon = ResourcesCompat.getDrawable(context.getResources(), R.drawable.checkbox_unchecked,null);

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.notes.NoteType;
 import ro.zero.zeronotes.storage.DataStorageManager;
 import ro.zero.zeronotes.ui.listeners.implementations.OnNoteLongClickListenerImpl;
-import ro.zero.zeronotes.ui.NoteRecyclerViewAdapter;
+import ro.zero.zeronotes.ui.adapters.NoteRecyclerViewAdapter;
 import ro.zero.zeronotes.ui.listeners.implementations.OnAddNoteButtonClickImpl;
 import ro.zero.zeronotes.ui.popups.SelectDatePopup;
 

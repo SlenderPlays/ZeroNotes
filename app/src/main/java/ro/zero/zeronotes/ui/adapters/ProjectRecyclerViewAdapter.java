@@ -1,4 +1,4 @@
-package ro.zero.zeronotes.ui;
+package ro.zero.zeronotes.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,21 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ro.zero.zeronotes.R;
-import ro.zero.zeronotes.notes.Note;
+import ro.zero.zeronotes.notes.Project;
 import ro.zero.zeronotes.storage.DataStorageManager;
+import ro.zero.zeronotes.ui.UIResourceManager;
 import ro.zero.zeronotes.ui.listeners.implementations.OnNoteLongClickListenerImpl;
 
-public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
+public class ProjectRecyclerViewAdapter extends RecyclerView.Adapter<ProjectRecyclerViewAdapter.ViewHolder> {
 	private static final int ITEM_TYPE = 0;
 	private static final int ADD_NOTE_TYPE = 1;
 
-	private List<Note> noteList;
+	private final List<Project> projectList;
 
 	private View.OnClickListener addNoteButtonClickListener;
 	private OnNoteLongClickListenerImpl noteLongClickListener;
 
-	public NoteRecyclerViewAdapter(List<Note> noteList) {
-		this.noteList = noteList;
+	public ProjectRecyclerViewAdapter(List<Project> projectList) {
+		this.projectList = projectList;
 	}
 
 	public void setOnAddButtonClickListener(View.OnClickListener listener) {
@@ -39,7 +40,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 		if(viewType == ITEM_TYPE) {
 			View view = LayoutInflater.from(viewGroup.getContext())
-					.inflate(R.layout.component_note, viewGroup, false);
+					.inflate(R.layout.component_project, viewGroup, false);
 
 			return new ItemViewHolder(view,noteLongClickListener);
 		} else if(viewType == ADD_NOTE_TYPE) {
@@ -58,9 +59,9 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 		if(type == ITEM_TYPE) {
 			ItemViewHolder itemHolder = (ItemViewHolder) viewHolder;
 
-			itemHolder.setNote(noteList.get(position));
-			itemHolder.setText(noteList.get(position).noteText);
-			itemHolder.setCheckboxStatus(noteList.get(position).finished);
+			itemHolder.setProject(projectList.get(position));
+			itemHolder.setText(projectList.get(position).noteText);
+			itemHolder.setCheckboxStatus(projectList.get(position).finished);
 		} else if (type == ADD_NOTE_TYPE) {
 			// ... we don't need to bind any data to it since it's a static element, with no data.
 		}
@@ -69,12 +70,12 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	// Return the size of the dataset. We return one more to have space for the "add note" button.
 	@Override
 	public int getItemCount() {
-		return noteList.size() + 1;
+		return projectList.size() + 1;
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		if(position < noteList.size()) return ITEM_TYPE;
+		if(position < projectList.size()) return ITEM_TYPE;
 		else return ADD_NOTE_TYPE;
 	}
 
@@ -98,7 +99,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	public static class ItemViewHolder extends ViewHolder {
 		private final TextView noteTextView;
 		private final ImageView checkBoxView;
-		private Note note = null;
+		private Project project = null;
 
 		public ItemViewHolder(View view, OnNoteLongClickListenerImpl listener) {
 			super(view);
@@ -107,9 +108,9 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 			checkBoxView = view.findViewById(R.id.note_checkBox);
 
 			checkBoxView.setOnClickListener(v -> {
-				if(note != null) {
-					note.finished = !note.finished;
-					setCheckboxStatus(note.finished);
+				if(project != null) {
+					project.finished = !project.finished;
+					setCheckboxStatus(project.finished);
 
 					// TODO: perhaps cache these changes and mass-commit them?
 					DataStorageManager.getInstance().save();
@@ -118,7 +119,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 
 			if(listener != null) {
 				view.setOnLongClickListener(v -> {
-					listener.clickedNote = note;
+					listener.clickedNote = project;
 					return listener.onLongClick(v);
 				});
 			}
@@ -138,8 +139,8 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 				noteTextView.setTextColor(UIResourceManager.getInstance().note_textColor_default);
 			}
 		}
-		public void setNote(Note note) {
-			this.note = note;
+		public void setProject(Project project) {
+			this.project = project;
 		}
 	}
 }
