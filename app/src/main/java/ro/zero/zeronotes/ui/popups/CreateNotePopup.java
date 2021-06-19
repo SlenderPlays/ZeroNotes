@@ -77,9 +77,10 @@ public class CreateNotePopup {
 
 		dateTextButton.setOnClickListener(v -> {
 			SelectDatePopup datePopup = new SelectDatePopup();
-			datePopup.showPopupWindow(inflater,defaultDate);
+			datePopup.showPopupWindow(inflater,date);
 			datePopup.addOnPopupDismissListener(() -> {
 				if(datePopup.isCancelled()) return;
+
 				date = datePopup.getSelectedDate();
 				dateTextButton.setText(date.toString());
 			});

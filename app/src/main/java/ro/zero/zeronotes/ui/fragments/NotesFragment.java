@@ -89,7 +89,7 @@ public class NotesFragment extends Fragment {
 		NoteRecyclerViewAdapter adapter = new NoteRecyclerViewAdapter(notes);
 
 		adapter.setOnAddButtonClickListener(new OnAddNoteButtonClickImpl(adapter, inflater, selectedDate, NoteType.NOTE));
-		adapter.setNoteLongClickListener(new OnNoteLongClickListenerImpl(inflater));
+		adapter.setNoteLongClickListener(new OnNoteLongClickListenerImpl(adapter, inflater));
 
 		recyclerView.setAdapter(adapter);
 	}

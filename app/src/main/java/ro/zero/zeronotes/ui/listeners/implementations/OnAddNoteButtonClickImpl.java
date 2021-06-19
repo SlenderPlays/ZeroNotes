@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import java.time.LocalDate;
 
@@ -16,12 +17,12 @@ import ro.zero.zeronotes.ui.popups.CreateNotePopup;
 
 public class OnAddNoteButtonClickImpl implements View.OnClickListener {
 
-	LayoutInflater inflater;
-	LocalDate defaultDate;
-	int defaultNoteType;
-	RecyclerView.Adapter adapter;
+	private final LayoutInflater inflater;
+	private final LocalDate defaultDate;
+	private final int defaultNoteType;
+	private final Adapter adapter;
 
-	public OnAddNoteButtonClickImpl(RecyclerView.Adapter adapter, LayoutInflater inflater, LocalDate defaultDate, int defaultNoteType) {
+	public OnAddNoteButtonClickImpl(Adapter adapter, LayoutInflater inflater, LocalDate defaultDate, int defaultNoteType) {
 		this.adapter = adapter;
 		this.inflater = inflater;
 		this.defaultDate = defaultDate;
