@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -62,6 +63,7 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 			itemHolder.setHabit(habitList.get(position));
 			itemHolder.setText(habitList.get(position).noteText);
 			itemHolder.setCheckboxStatus(habitList.get(position).isFinished());
+			itemHolder.updateStreak();
 		} else if (type == ADD_NOTE_TYPE) {
 			// ... we don't need to bind any data to it since it's a static element, with no data.
 		}
@@ -97,6 +99,9 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 		}
 	}
 	public static class ItemViewHolder extends ViewHolder {
+		private final ConstraintLayout noteContainer;
+		private final ConstraintLayout streakContainer;
+		private final TextView streakTextView;
 		private final TextView noteTextView;
 		private final ImageView checkBoxView;
 		private Habit habit = null;
@@ -104,14 +109,19 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 		public ItemViewHolder(View view, OnNoteLongClickListenerImpl listener) {
 			super(view);
 
+			noteContainer = view.findViewById(R.id.note_content_container);
 			noteTextView = view.findViewById(R.id.note_content);
 			checkBoxView = view.findViewById(R.id.note_checkBox);
+
+			streakContainer = view.findViewById(R.id.streak_container);
+			streakTextView = view.findViewById(R.id.streak_text);
 
 			checkBoxView.setOnClickListener(v -> {
 				if(habit != null) {
 					habit.setFinished(!habit.isFinished());
 
 					setCheckboxStatus(habit.isFinished());
+					updateStreak();
 
 					// TODO: perhaps cache these changes and mass-commit them?
 					DataStorageManager.getInstance().save();
@@ -126,17 +136,27 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 			}
 		}
 
+		public void updateStreak() {
+			if(habit.streak == 0) {
+				streakContainer.setVisibility(View.INVISIBLE);
+			} else {
+				streakContainer.setVisibility(View.VISIBLE);
+
+				String text = "x"+String.valueOf(habit.streak);
+				streakTextView.setText(text);
+			}
+		}
 		public void setText(String str) {
 			noteTextView.setText(str);
 		}
 		public void setCheckboxStatus(boolean checked) {
 			if(checked) {
 				checkBoxView.setImageDrawable(UIResourceManager.getInstance().note_checkedIcon);
-				noteTextView.setBackgroundResource(R.color.note_finished);
+				noteContainer.setBackgroundResource(R.color.note_finished);
 				noteTextView.setTextColor(UIResourceManager.getInstance().note_textColor_finished);
 			} else {
 				checkBoxView.setImageDrawable(UIResourceManager.getInstance().note_uncheckedIcon);
-				noteTextView.setBackgroundResource(R.color.note_default);
+				noteContainer.setBackgroundResource(R.color.note_default);
 				noteTextView.setTextColor(UIResourceManager.getInstance().note_textColor_default);
 			}
 		}

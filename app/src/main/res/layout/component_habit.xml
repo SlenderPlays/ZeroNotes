@@ -6,19 +6,62 @@
     android:layout_height="wrap_content"
     android:paddingBottom="12dp">
 
-    <TextView
-        android:id="@+id/note_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/note_content_container"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@color/note_default"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="20dp"
-        android:text="Example Note Title"
-        android:textColor="@color/note_text_default"
-        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/note_checkBox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/note_content"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp"
+            android:text="Example Note Title"
+            android:textColor="@color/note_text_default"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/streak_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/streak_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/streak_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/streak_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/streak_fire" />
+
+            <TextView
+                android:id="@+id/streak_text"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                android:text="x999"
+                android:textColor="@color/note_text_default"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/streak_image" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ImageView
         android:id="@+id/note_checkBox"
@@ -27,9 +70,11 @@
         android:background="@color/grey_20"
         android:padding="8dp"
         android:src="@drawable/checkbox_unchecked"
-        app:layout_constraintBottom_toBottomOf="@+id/note_content"
+        app:layout_constraintBottom_toBottomOf="@+id/note_content_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/note_content"
+        app:layout_constraintTop_toTopOf="@+id/note_content_container"
         android:contentDescription="Checkbox for the note" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
