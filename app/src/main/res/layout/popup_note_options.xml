@@ -39,12 +39,27 @@
         android:background="@drawable/popup_note_options_button_gradient"
         />
     <TextView
-        android:id="@+id/popup_note_options_edit"
+        android:id="@+id/popup_note_options_add_subtask"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center_vertical"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@id/popup_note_options_remove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Add Sub-Task"
+        android:textColor="@color/white"
+        android:paddingHorizontal="20dp"
+        android:textSize="20sp"
+        android:background="@drawable/popup_note_options_button_gradient"
+        />
+    <TextView
+        android:id="@+id/popup_note_options_edit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/popup_note_options_add_subtask"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Edit"

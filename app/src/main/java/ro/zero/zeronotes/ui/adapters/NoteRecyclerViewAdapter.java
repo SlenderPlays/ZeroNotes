@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ro.zero.zeronotes.R;
@@ -62,6 +64,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 			itemHolder.setNote(noteList.get(position));
 			itemHolder.setText(noteList.get(position).noteText);
 			itemHolder.setCheckboxStatus(noteList.get(position).finished);
+			itemHolder.updateSubTasks();
 		} else if (type == ADD_NOTE_TYPE) {
 			// ... we don't need to bind any data to it since it's a static element, with no data.
 		}
@@ -99,6 +102,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 	public static class ItemViewHolder extends ViewHolder {
 		private final TextView noteTextView;
 		private final ImageView checkBoxView;
+		private final SubTaskRecyclerViewAdapter subTaskAdapter;
 		private Note note = null;
 
 		public ItemViewHolder(View view, OnNoteLongClickListenerImpl listener) {
@@ -106,6 +110,13 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 
 			noteTextView = view.findViewById(R.id.note_content);
 			checkBoxView = view.findViewById(R.id.note_checkBox);
+			subTaskAdapter = new SubTaskRecyclerViewAdapter();
+			subTaskAdapter.setNoteLongClickListener(listener);
+
+
+			RecyclerView subTaskRecycler = view.findViewById(R.id.subtaskRecycler);
+			subTaskRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+			subTaskRecycler.setAdapter(subTaskAdapter);
 
 			checkBoxView.setOnClickListener(v -> {
 				if(note != null) {
@@ -141,6 +152,12 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
 		}
 		public void setNote(Note note) {
 			this.note = note;
+		}
+		public void updateSubTasks() {
+			if(note != null) {
+				subTaskAdapter.setSubTaskList(note.subTasks);
+				subTaskAdapter.notifyDataSetChanged();
+			}
 		}
 	}
 }

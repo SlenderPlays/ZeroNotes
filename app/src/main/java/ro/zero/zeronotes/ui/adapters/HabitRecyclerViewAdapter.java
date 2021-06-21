@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 			itemHolder.setText(habitList.get(position).noteText);
 			itemHolder.setCheckboxStatus(habitList.get(position).isFinished());
 			itemHolder.updateStreak();
+			itemHolder.updateSubTasks();
 		} else if (type == ADD_NOTE_TYPE) {
 			// ... we don't need to bind any data to it since it's a static element, with no data.
 		}
@@ -104,6 +106,7 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 		private final TextView streakTextView;
 		private final TextView noteTextView;
 		private final ImageView checkBoxView;
+		private final SubTaskRecyclerViewAdapter subTaskAdapter;
 		private Habit habit = null;
 
 		public ItemViewHolder(View view, OnNoteLongClickListenerImpl listener) {
@@ -115,6 +118,13 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 
 			streakContainer = view.findViewById(R.id.streak_container);
 			streakTextView = view.findViewById(R.id.streak_text);
+
+			subTaskAdapter = new SubTaskRecyclerViewAdapter();
+			subTaskAdapter.setNoteLongClickListener(listener);
+
+			RecyclerView subTaskRecycler = view.findViewById(R.id.subtaskRecycler);
+			subTaskRecycler.setLayoutManager(new LinearLayoutManager(view.getContext()));
+			subTaskRecycler.setAdapter(subTaskAdapter);
 
 			checkBoxView.setOnClickListener(v -> {
 				if(habit != null) {
@@ -162,6 +172,12 @@ public class HabitRecyclerViewAdapter extends RecyclerView.Adapter<HabitRecycler
 		}
 		public void setHabit(Habit habit) {
 			this.habit = habit;
+		}
+		public void updateSubTasks() {
+			if(habit != null) {
+				subTaskAdapter.setSubTaskList(habit.subTasks);
+				subTaskAdapter.notifyDataSetChanged();
+			}
 		}
 	}
 }

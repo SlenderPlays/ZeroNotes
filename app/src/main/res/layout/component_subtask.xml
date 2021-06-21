@@ -4,33 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="12dp">
+    android:paddingBottom="6dp">
 
     <TextView
-        android:id="@+id/note_content"
+        android:id="@+id/subTask_text"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:background="@color/note_default"
+        android:layout_height="50dp"
+        android:background="@color/grey_30"
         android:gravity="center_vertical"
         android:paddingHorizontal="20dp"
-        android:text="Example Note Title"
+        android:text="Example SubTask Title"
         android:textColor="@color/note_text_default"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/note_checkBox"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/subTask_checkBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/note_checkBox"
+        android:id="@+id/subTask_checkBox"
         android:layout_width="50dp"
         android:layout_height="0dp"
         android:background="@color/grey_20"
         android:padding="8dp"
         android:src="@drawable/checkbox_unchecked"
-        app:layout_constraintBottom_toBottomOf="@+id/note_content"
+        app:layout_constraintBottom_toBottomOf="@+id/subTask_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/note_content"
-        android:contentDescription="Checkbox for the note" />
+        app:layout_constraintTop_toTopOf="@+id/subTask_text"
+        android:contentDescription="Checkbox for the subtask" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subtaskRecycler"
@@ -41,6 +41,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/note_content" />
-
+        app:layout_constraintTop_toBottomOf="@+id/subTask_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>

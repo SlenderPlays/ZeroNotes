@@ -37,11 +37,17 @@ public class SaveData {
 			LocalDate date = entry.getKey();
 			for (Note note: entry.getValue()) {
 				note.date = date;
+				note.setSubTaskParent();
 			}
 		}
 
 		for (Habit habit : habits) {
 			habit.validateStreak();
+			habit.setSubTaskParent();
+		}
+
+		for (Project project: projects) {
+			project.setSubTaskParent();
 		}
 	}
 

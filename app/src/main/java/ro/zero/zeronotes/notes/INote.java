@@ -2,6 +2,7 @@ package ro.zero.zeronotes.notes;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -25,8 +26,17 @@ public class INote {
 	 */
 	public int noteType;
 
+	public ArrayList<SubTask> subTasks = new ArrayList<>();
+
 	public INote() {
 		id = UUID.randomUUID();
+	}
+
+	public void setSubTaskParent() {
+		for (SubTask task: subTasks) {
+			task.parent = this;
+			task.setSubTaskParent();
+		}
 	}
 
 	@Override

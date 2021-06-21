@@ -13,6 +13,7 @@ import ro.zero.zeronotes.notes.INote;
 import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.notes.NoteType;
 import ro.zero.zeronotes.notes.Project;
+import ro.zero.zeronotes.notes.SubTask;
 import ro.zero.zeronotes.storage.DataStorageManager;
 import ro.zero.zeronotes.ui.popups.NoteOptionsPopup;
 
@@ -56,6 +57,12 @@ public class OnNoteLongClickListenerImpl implements View.OnLongClickListener {
 						DataStorageManager.getInstance().saveData.projects.remove(removedProject);
 						break;
 					}
+					case NoteType.SUBTASK: {
+						SubTask removedSubTask = (SubTask)clickedNote;
+
+						removedSubTask.parent.subTasks.remove(removedSubTask);
+						DataStorageManager.getInstance().save();
+					}
 					default: {
 						break;
 					}
@@ -94,14 +101,28 @@ public class OnNoteLongClickListenerImpl implements View.OnLongClickListener {
 						DataStorageManager.getInstance().save();
 						break;
 					}
+					case NoteType.SUBTASK: {
+						SubTask editedSubTask = (SubTask)clickedNote;
+
+						editedSubTask.noteText = noteOptionsPopup.getNewNoteText();
+
+						DataStorageManager.getInstance().save();
+						break;
+					}
 					default: {
 						break;
 					}
 				}
+			} else if(noteOptionsPopup.isSubTaskAdded()) {
+				SubTask subTask = noteOptionsPopup.getNewSubTask();
+				subTask.parent = clickedNote;
+				clickedNote.subTasks.add(subTask);
+
+				DataStorageManager.getInstance().save();
 			}
 
 			adapter.notifyDataSetChanged();
 		});
-		return false;
+		return true;
 	}
 }

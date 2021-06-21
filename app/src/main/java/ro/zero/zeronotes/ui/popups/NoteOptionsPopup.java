@@ -15,15 +15,18 @@ import ro.zero.zeronotes.R;
 import ro.zero.zeronotes.notes.INote;
 import ro.zero.zeronotes.notes.Note;
 import ro.zero.zeronotes.notes.NoteType;
+import ro.zero.zeronotes.notes.SubTask;
 import ro.zero.zeronotes.ui.listeners.OnPopupDismissListener;
 
 public class NoteOptionsPopup {
 	private boolean isRemovalRequested = false;
 	private boolean noteEdited = false;
+	private boolean subTaskAdded = false;
 	private boolean cancelled = false;
 
 	private String newNoteText;
 	private LocalDate newDate;
+	private SubTask newSubTask;
 
 	private List<OnPopupDismissListener> listeners = new ArrayList<>();
 
@@ -31,6 +34,7 @@ public class NoteOptionsPopup {
 		// Create View
 		View view = inflater.inflate(R.layout.popup_note_options, null);
 		TextView editButton = view.findViewById(R.id.popup_note_options_edit);
+		TextView addSubTaskButton = view.findViewById(R.id.popup_note_options_add_subtask);
 		TextView removeButton = view.findViewById(R.id.popup_note_options_remove);
 		TextView cancelButton = view.findViewById(R.id.popup_note_options_cancel);
 
@@ -65,18 +69,44 @@ public class NoteOptionsPopup {
 			popupWindow.dismiss();
 		});
 
-		editButton.setOnClickListener(v -> {
-			EditNotePopup editNotePopup = new EditNotePopup();
-			editNotePopup.showPopupWindow(inflater, newNoteText, newDate, note.noteType);
-			editNotePopup.addOnPopupDismissListener(() -> {
-				if (editNotePopup.isCancelled()) return;
-				noteEdited = true;
+		addSubTaskButton.setOnClickListener(v -> {
+			EditSubTaskPopup createSubTaskPopup = new EditSubTaskPopup();
+			createSubTaskPopup.showPopupWindow(inflater,"");
+			createSubTaskPopup.addOnPopupDismissListener(() -> {
+				if(createSubTaskPopup.isCancelled()) return;
+				subTaskAdded = true;
 
-				newNoteText = editNotePopup.getNewNoteText();
-				newDate = editNotePopup.getNewDate();
+				newSubTask = createSubTaskPopup.getNewSubTask();
 
 				popupWindow.dismiss();
 			});
+		});
+
+		editButton.setOnClickListener(v -> {
+			if(note.noteType == NoteType.SUBTASK) {
+				EditSubTaskPopup editSubTaskPopup = new EditSubTaskPopup();
+				editSubTaskPopup.showPopupWindow(inflater,newNoteText);
+				editSubTaskPopup.addOnPopupDismissListener(() -> {
+					if(editSubTaskPopup.isCancelled()) return;
+					noteEdited = true;
+
+					newNoteText = editSubTaskPopup.getNewNoteText();
+
+					popupWindow.dismiss();
+				});
+			} else {
+				EditNotePopup editNotePopup = new EditNotePopup();
+				editNotePopup.showPopupWindow(inflater, newNoteText, newDate, note.noteType);
+				editNotePopup.addOnPopupDismissListener(() -> {
+					if (editNotePopup.isCancelled()) return;
+					noteEdited = true;
+
+					newNoteText = editNotePopup.getNewNoteText();
+					newDate = editNotePopup.getNewDate();
+
+					popupWindow.dismiss();
+				});
+			}
 		});
 
 		// On popup dismiss
@@ -106,6 +136,10 @@ public class NoteOptionsPopup {
 		return cancelled;
 	}
 
+	public boolean isSubTaskAdded() {
+		return subTaskAdded;
+	}
+
 	public void applyChanges(INote note) {
 		note.noteText = newNoteText;
 		if (note.noteType == NoteType.NOTE) {
@@ -119,5 +153,9 @@ public class NoteOptionsPopup {
 
 	public String getNewNoteText() {
 		return newNoteText;
+	}
+
+	public SubTask getNewSubTask() {
+		return newSubTask;
 	}
 }
